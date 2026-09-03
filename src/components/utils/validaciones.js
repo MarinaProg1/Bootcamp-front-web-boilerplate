@@ -17,13 +17,13 @@ export const validarDatos = (datos, reglas) => {
 
 //EJEMPLOS DE LOCAL STORAGE
 //Guardar
-localStorage.setItem('key', 'value');
+//localStorage.setItem('key', 'value');
 
 //recuperar
-const miDato = localStorage.getItem('key');
+//const miDato = localStorage.getItem('key');
 
 //borrar dato
-localStorage.removeItem('key');
+//localStorage.removeItem('key');
 
 
 //BACKEND (endpoint) Crear una ruta POST /api/auth/login
