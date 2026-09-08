@@ -1,0 +1,135 @@
+$color-primario: #1d58ee;
+$color-fondo: #b8b2cc;
+$color-borde: #acaaaa;
+
+.bodyLogin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(135deg, #afccd8 0%, #2e6374 50%, #9654aa 100%);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow-y: auto; // Cambiado de hidden para permitir scroll si la pantalla es muy pequeña
+    padding: 20px;    // Evita que la tarjeta toque los bordes de la pantalla en móviles
+}
+
+.cardLogin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;          // Ocupa el ancho disponible
+    max-width: 800px;     // No crecerá más de esto en pantallas grandes
+    background-color: rgba(240, 233, 233, 0.26); 
+    backdrop-filter: blur(12px);                 
+    -webkit-backdrop-filter: blur(12px);         
+    border: 1px solid rgba(51, 44, 44, 0.25);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    animation: deslizarDesdeAbajo 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+
+    // Media query para celulares y tablets pequeñas
+    @media (max-width: 768px) {
+        flex-direction: column; // Apila los elementos verticalmente
+        padding: 20px;          // Reduce el padding interno
+    }
+
+    img {
+        width: 100%;       
+        max-width: 200px;  
+        height: auto;
+        color: $color-primario;
+    }
+}
+
+.welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;      // Centra los elementos horizontalmente (imagen, h4, p)
+    justify-content: center;  // Centra los elementos verticalmente
+    text-align: center;       // Centra la alineación del texto dentro de las etiquetas
+    padding: 20px;
+    width: 100%;           
+    max-width: 85%;
+    height: 100%;
+    border-left: 1px solid rgba(51, 44, 44, 0.25);
+
+    @media (max-width: 768px) {
+        border-left: none; 
+        border-top: 1px solid rgba(51, 44, 44, 0.25);
+        max-width: 100%;
+    }
+}
+
+.contenedorFormulario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    width: 100%;           // Ocupa el ancho disponible
+    max-width: 400px;
+    // Eliminado 'height: 300px' fijo para que el contenedor crezca según su contenido en móviles
+    min-height: 300px;     
+    margin: 20px auto;
+    
+
+    h2 {
+        color: $color-primario;
+        margin-bottom: 18px;
+        text-align: center;
+    }
+
+    .textoError {
+        color: red;
+        padding-bottom: 8px;
+    }
+    
+    .campoInput {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid $color-borde;
+        border-radius: 5px;
+
+        &:focus {
+            outline: none;
+            border-color: $color-primario;
+            box-shadow: 0 0 5px rgba(0, 86, 179, 0.3);
+        }
+    }
+
+    img {
+        width: 50px;
+        height: auto;
+    }
+
+    button {
+        display: block;
+        margin: 0 auto;
+        align-self: center;
+        background: $color-primario;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+            background: #42578d;
+        }
+    }
+}
+@keyframes deslizarDesdeAbajo {
+    0% {
+        transform: translateY(100vh); 
+        opacity: 0;                   
+    }
+    100% {
+        transform: translateY(0);     
+        opacity: 1;                  
+    }
+}
