@@ -7,6 +7,7 @@ import LayoutPrincipal from "./components/layout/LayoutPrincipal";
 import DetalleTurno from "./components/turnos/DetalleTurno";
 import NotFound from "./components/utils/NotFound";
 import { Login } from "./components/login/Login";
+import HistoriaClinica from "./components/historiaClinica/HistoriaClinica";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/dashboard" element={<DashboardRecepcion />} />
           <Route path="nuevo-paciente" element={<FormularioPaciente />} />
           <Route path="turno-detalle/:id" element={<DetalleTurno />} />
+          <Route path="historiaclinica" element={<HistoriaClinica />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
@@ -28,3 +30,5 @@ function App() {
 }
 
 export default App;
+
+
