@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Col, Card, Badge, Button, Stack } from "react-bootstrap";
 
-const TurnoCard = ({ turno, onAtender }) => {
+const TurnoCard = ({ turno, onAtender, onEliminar }) => {
     const paciente = turno.paciente;
     const fecha = new Date(turno.fechaTurno);
 
@@ -29,17 +29,40 @@ const TurnoCard = ({ turno, onAtender }) => {
                     {paciente?.dni && <div className="small text-body-secondary">DNI: {paciente.dni}</div>}
                 </Card.Body>
                 <Card.Footer className="bg-white border-0 px-3 pb-3">
-                    <Stack direction="horizontal" gap={2}>
-                        <Button as={Link} to={`/turno-detalle/${turno.id}`} variant="outline-secondary" className="flex-grow-1">
+                    <Stack gap={2}>
+                        <Button
+                            as={Link}
+                            to={`/turno-detalle/${turno.id}`}
+                            variant="outline-secondary"
+                            className="w-100"
+                        >
                             Ver detalle
                         </Button>
-                        <Button
-                            onClick={() => onAtender(turno.id)}
-                            disabled={turno.estado === "atendido" || !paciente}
-                            variant="primary"
-                        >
-                            Llamar
-                        </Button>
+
+                        <Stack direction="horizontal" gap={2}>
+
+                            <Button
+                                onClick={() => onAtender(turno.id)}
+                                disabled={
+                                    turno.estado === "atendido" ||
+                                    !paciente
+                                }
+                                variant="primary"
+                                className="flex-grow-1"
+                            >
+                                Llamar
+                            </Button>
+
+                            <Button
+                                variant="danger"
+                                onClick={() => onEliminar(turno.id)}
+                                className="flex-grow-1"
+                            >
+                                Eliminar
+                            </Button>
+
+                        </Stack>
+
                     </Stack>
                 </Card.Footer>
             </Card>

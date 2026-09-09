@@ -32,6 +32,32 @@ const DashboardRecepcion = () => {
         }
     };
 
+    const eliminarTurno = async (idTurno) => {
+    const confirmar = window.confirm(
+        "¿Está seguro de que desea eliminar este turno?"
+    );
+
+    if (!confirmar) {
+        return;
+    }
+
+    try {
+        await clientesAxios.delete(`/turnos/${idTurno}`);
+
+        setTurnos((turnosActuales) =>
+            turnosActuales.filter(
+                (turno) => turno.id !== idTurno
+            )
+        );
+
+        toast.success("Turno eliminado correctamente.");
+
+    } catch (error) {
+        console.error("Error al eliminar el turno:", error);
+        toast.error("No se pudo eliminar el turno.");
+    }
+};
+
     return (
         <Container className="mt-4">
             <h2 className="mb-4">Turnos del Día total: {response.total} </h2>
@@ -49,6 +75,7 @@ const DashboardRecepcion = () => {
                         key={turno.id}
                         turno={turno}
                         onAtender={marcarComoAtendido}
+                        onEliminar={eliminarTurno}
                     />
                 ))}
             </Row>
