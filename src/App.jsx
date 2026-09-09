@@ -6,6 +6,8 @@ import LayoutPrincipal from "./components/layout/LayoutPrincipal";
 import DetalleTurno from "./components/turnos/DetalleTurno";
 import NotFound from "./components/utils/NotFound";
 import { Login } from "./components/login/Login";
+import Pacientes from "./components/pacientes/listado pacientes/components/Pacientes";
+import DetallePaciente from "./components/pacientes/DetallePaciente";
 
 const RutaProtegida = () => {
   const token = localStorage.getItem("token");
@@ -25,6 +27,8 @@ function App() {
           <Route path="/dashboard" element={<DashboardRecepcion />} />
           <Route path="nuevo-paciente" element={<FormularioPaciente />} />
           <Route path="turno-detalle/:id" element={<DetalleTurno />} />
+          <Route path="listado-pacientes" element={<Pacientes />} />
+          <Route path="paciente-detalle/:id" element={<DetallePaciente />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

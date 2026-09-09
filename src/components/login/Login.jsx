@@ -43,10 +43,10 @@ export const Login = () => {
         toast.success("¡Inicio de sesión exitoso!");
         navigate("/dashboard");
       } else {
-        toast.error(respuesta.data?.mensaje || "Credenciales incorrectas");
+        toast.error(respuesta.data?.message || respuesta.data?.mensaje || "Credenciales incorrectas");
       }
     } catch (error) {
-      toast.error(error.response?.data?.mensaje || "Error al iniciar sesión");
+      toast.error(error.response?.data?.message || error.response?.data?.mensaje || "Error al iniciar sesión");
     }
   };
 
