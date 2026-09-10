@@ -11,6 +11,7 @@ import { Container, Table, Button, Modal } from "react-bootstrap";
 import { useFetch } from "../../hooks/useFetch";
 import clientesAxios from "../../config/axios";
 import { toast } from "sonner";
+import BuscadorTurnos from "../../components/turnos/BuscadorTurnos";
 
 import ListSkeleton from "../utils/ListSkeleton";
 
@@ -20,9 +21,28 @@ const MedicosList = () => {
     setData: setMedicos,
     isLoading,
   } = useFetch("/medicos");
-
+  const [busqueda, setBusqueda] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [medicoAEliminar, setMedicoAEliminar] = useState(null);
+
+  const medicosFiltrados = (medicos || []).filter((medico) => {
+    const termino = busqueda.toLowerCase().trim();
+    const nombreCompleto =
+      `${medico.nombre || ""} ${medico.apellido || ""}`.toLowerCase();
+
+    const especialidades = Array.isArray(medico.especialidad)
+      ? medico.especialidad
+          .map((e) => e.nombre || e)
+          .join(" ")
+          .toLowerCase()
+      : (
+          medico.especialidad?.nombre ||
+          medico.especialidad ||
+          ""
+        ).toLowerCase();
+
+    return nombreCompleto.includes(termino) || especialidades.includes(termino);
+  });
 
   const handleOpenModal = (id) => {
     setMedicoAEliminar(id);
@@ -61,6 +81,7 @@ const MedicosList = () => {
 
   return (
     <Container className="py-4">
+      <BuscadorTurnos valor={busqueda} alCambiar={setBusqueda} />
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h3 className="d-flex align-items-center gap-2">
           <PersonBadge size={32} />
@@ -93,8 +114,9 @@ const MedicosList = () => {
           </tr>
         </thead>
         <tbody>
-          {medicos && medicos.length > 0 ? (
-            medicos.map((medico) => {
+          {/* 2. Cambiamos 'medicos' por 'medicosFiltrados' */}
+          {medicosFiltrados && medicosFiltrados.length > 0 ? (
+            medicosFiltrados.map((medico) => {
               const medicoId = medico._id || medico.id;
               return (
                 <tr
@@ -168,7 +190,7 @@ const MedicosList = () => {
                 className="text-center py-4 text-muted bg-white shadow-sm"
                 style={{ borderRadius: "8px" }}
               >
-                No hay médicos registrados o activos.
+                No se encontraron médicos que coincidan con la búsqueda.
               </td>
             </tr>
           )}
