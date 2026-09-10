@@ -5,6 +5,8 @@ import DashboardRecepcion from "./pages/DashboardRecepcion";
 import FormularioPaciente from "./components/pacientes/FormularioPaciente";
 import LayoutPrincipal from "./components/layout/LayoutPrincipal";
 import DetalleTurno from "./components/turnos/DetalleTurno";
+import EditarTurno from "./components/turnos/EditarTurno";
+import FormularioTurno from "./components/turnos/FormularioTurno";
 import NotFound from "./components/utils/NotFound";
 import { Login } from "./components/login/Login";
 
@@ -20,6 +22,8 @@ function App() {
           <Route path="/dashboard" element={<DashboardRecepcion />} />
           <Route path="nuevo-paciente" element={<FormularioPaciente />} />
           <Route path="turno-detalle/:id" element={<DetalleTurno />} />
+          <Route path="turno-editar/:id" element={<EditarTurno />} />
+          <Route path="nuevo-turno" element={<FormularioTurno />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
