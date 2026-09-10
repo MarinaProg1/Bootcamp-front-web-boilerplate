@@ -25,8 +25,8 @@ const reglasMedico = {
 
 const FormularioMedico = () => {
   const navigate = useNavigate();
-  const { id } = useParams(); // Obtenemos el ID de la URL si existe
-  const esEdicion = Boolean(id); // Si hay ID, estamos editando
+  const { id } = useParams();
+  const esEdicion = Boolean(id);
 
   const [cargando, setCargando] = useState(false);
   const [errores, setErrores] = useState({});
@@ -52,7 +52,6 @@ const FormularioMedico = () => {
     { value: "6a6e57e40b640089be6b7537", label: "Kinesiología" },
   ];
 
-  // Cargar datos si estamos en modo edición
   useEffect(() => {
     if (esEdicion) {
       const obtenerMedico = async () => {
@@ -62,9 +61,6 @@ const FormularioMedico = () => {
           const datos = Array.isArray(res.data)
             ? res.data[0]
             : res.data.datos || res.data;
-
-          // Normalizar especialidad a un array de IDs
-          // Normalizar especialidad a un array de Strings para asegurar coincidencia estricta
           let especialidadesIds = [];
           if (Array.isArray(datos.especialidad)) {
             especialidadesIds = datos.especialidad.map((e) =>
@@ -84,7 +80,7 @@ const FormularioMedico = () => {
             dni: datos.dni || "",
             matricula: datos.matricula || "",
             email: datos.email || "",
-            especialidad: especialidadesIds, // Garantiza un array de strings
+            especialidad: especialidadesIds,
             telefono: {
               tipo: datos.telefono?.tipo || "CELULAR",
               codigoArea: datos.telefono?.codigoArea || "",

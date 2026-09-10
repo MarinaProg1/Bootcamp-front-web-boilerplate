@@ -1,5 +1,13 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Container, Table, Button } from "react-bootstrap";
+import {
+  PersonBadge,
+  PlusLg,
+  Eye,
+  PencilSquare,
+  Trash,
+} from "react-bootstrap-icons";
+import { Container, Table, Button, Modal } from "react-bootstrap";
 import { useFetch } from "../../hooks/useFetch";
 import clientesAxios from "../../config/axios";
 import { toast } from "sonner";
@@ -13,21 +21,37 @@ const MedicosList = () => {
     isLoading,
   } = useFetch("/medicos");
 
-  // Borrado lógico
-  const handleDelete = async (id) => {
-    if (window.confirm("¿Estás seguro de desactivar este médico?")) {
-      try {
-        const res = await clientesAxios.delete(`/medicos/${id}`);
-        if (res.data.exito) {
-          toast.success("Médico eliminado correctamente");
-          setMedicos(
-            medicos.filter((medico) => (medico._id || medico.id) !== id),
-          );
-        }
-      } catch (error) {
-        toast.error("Error al eliminar el médico");
-        console.error(error);
+  const [showModal, setShowModal] = useState(false);
+  const [medicoAEliminar, setMedicoAEliminar] = useState(null);
+
+  const handleOpenModal = (id) => {
+    setMedicoAEliminar(id);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setMedicoAEliminar(null);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!medicoAEliminar) return;
+
+    try {
+      const res = await clientesAxios.delete(`/medicos/${medicoAEliminar}`);
+      if (res.data.exito) {
+        toast.success("Médico desactivado correctamente");
+        setMedicos(
+          medicos.filter(
+            (medico) => (medico._id || medico.id) !== medicoAEliminar,
+          ),
+        );
       }
+    } catch (error) {
+      toast.error("Error al eliminar el médico");
+      console.error(error);
+    } finally {
+      handleCloseModal();
     }
   };
 
@@ -38,18 +62,21 @@ const MedicosList = () => {
   return (
     <Container className="py-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>Listado de Médicos</h2>
+        <h3 className="d-flex align-items-center gap-2">
+          <PersonBadge size={32} />
+          Listado de Médicos
+        </h3>
         <Button
           as={Link}
           to="/medicos/nuevo"
           variant="primary"
+          className="d-inline-flex align-items-center gap-2"
           style={{ border: "1px solid #c9c9c9" }}
         >
-          + Registrar Médico
+          <PlusLg size={18} /> Registrar Médico
         </Button>
       </div>
 
-      {/* Tabla con separación entre filas */}
       <Table
         responsive
         className="align-middle mb-0"
@@ -75,7 +102,6 @@ const MedicosList = () => {
                   className="shadow-sm bg-white"
                   style={{ borderRadius: "8px" }}
                 >
-                  {/* Primera celda: bordes redondeados a la izquierda y borde de acento */}
                   <td
                     className="fw-semibold ps-4 py-3 border-0"
                     style={{
@@ -87,7 +113,6 @@ const MedicosList = () => {
                     {medico.nombre} {medico.apellido}
                   </td>
 
-                  {/* Celda central */}
                   <td className="text-muted py-3 border-0">
                     {Array.isArray(medico.especialidad)
                       ? medico.especialidad.map((e) => e.nombre || e).join(", ")
@@ -96,7 +121,6 @@ const MedicosList = () => {
                         "Sin especialidad"}
                   </td>
 
-                  {/* Última celda: bordes redondeados a la derecha */}
                   <td
                     className="text-end pe-4 py-3 border-0"
                     style={{
@@ -108,27 +132,29 @@ const MedicosList = () => {
                       <Button
                         as={Link}
                         to={`/medicos/${medicoId}`}
-                        variant="primary"
+                        variant="outline-info"
+                        className="d-inline-flex align-items-center gap-1"
                         size="sm"
-                        style={{ border: "1px solid #c9c9c9" }}
                       >
-                        Ver Detalle
+                        <Eye size={16} /> Ver Detalle
                       </Button>
                       <Button
                         as={Link}
                         to={`/medicos/editar/${medicoId}`}
-                        variant="success"
+                        variant="outline-success"
+                        className="d-inline-flex align-items-center gap-1"
                         size="sm"
                         style={{ border: "1px solid #c9c9c9" }}
                       >
-                        Editar
+                        <PencilSquare size={16} /> Editar
                       </Button>
                       <Button
-                        variant="danger"
+                        variant="outline-danger"
+                        className="d-inline-flex align-items-center gap-1"
                         size="sm"
-                        onClick={() => handleDelete(medicoId)}
+                        onClick={() => handleOpenModal(medicoId)}
                       >
-                        Eliminar
+                        <Trash size={16} /> Eliminar
                       </Button>
                     </div>
                   </td>
@@ -148,6 +174,24 @@ const MedicosList = () => {
           )}
         </tbody>
       </Table>
+
+      {/* Modal de confirmación */}
+      <Modal show={showModal} onHide={handleCloseModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title className="h5">Confirmar desactivación</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          ¿Estás seguro de que deseas desactivar a este médico del sistema?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cancelar
+          </Button>
+          <Button variant="danger" onClick={handleConfirmDelete}>
+            Sí, desactivar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };

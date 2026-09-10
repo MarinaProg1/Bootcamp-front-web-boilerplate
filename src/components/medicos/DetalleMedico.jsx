@@ -16,10 +16,8 @@ import { useFetch } from "../../hooks/useFetch";
 const DetalleMedico = () => {
   const { id } = useParams();
 
-  // Consumimos el endpoint del médico según el ID
   const { data: medicos, isLoading } = useFetch(`/medicos/?id=${id}`);
 
-  // Si la API devuelve un array, tomamos el primero; si devuelve directamente el objeto, usamos 'medicos'
   const medico = Array.isArray(medicos) ? medicos[0] : medicos;
 
   if (isLoading) {
@@ -46,7 +44,6 @@ const DetalleMedico = () => {
 
   return (
     <Container className="pb-5">
-      {/* Encabezado Principal */}
       <Stack
         direction="horizontal"
         className="justify-content-between align-items-start mb-4"
@@ -64,8 +61,6 @@ const DetalleMedico = () => {
           {medico.activo !== false ? "Activo" : "Inactivo"}
         </Badge>
       </Stack>
-
-      {/* Tarjeta Resumen Principal */}
       <Card className="border-0 shadow-sm mb-4">
         <Card.Body>
           <Row className="g-4">
@@ -80,11 +75,15 @@ const DetalleMedico = () => {
             <Col xs={12} md={4}>
               <div className="small text-body-secondary">Especialidad</div>
               <div className="fw-semibold text-capitalize">
-                {medico.especialidad?.nombre ||
-                  medico.especialidad ||
-                  "Sin especificar"}
+                {Array.isArray(medico.especialidad)
+                  ? medico.especialidad.map((e) => e.nombre || e).join(", ")
+                  : typeof medico.especialidad === "object" &&
+                      medico.especialidad !== null
+                    ? medico.especialidad.nombre || "Sin especificar"
+                    : medico.especialidad || "Sin especificar"}
               </div>
             </Col>
+
             <Col xs={12} md={4}>
               <div className="small text-body-secondary">
                 Identificador (ID)
@@ -96,10 +95,7 @@ const DetalleMedico = () => {
           </Row>
         </Card.Body>
       </Card>
-
-      {/* Tarjetas de Detalle */}
       <Row className="g-4">
-        {/* Información Personal y Contacto */}
         <Col xs={12} lg={6}>
           <Card className="h-100 border-0 shadow-sm">
             <Card.Header className="bg-white fw-semibold">
@@ -150,11 +146,9 @@ const DetalleMedico = () => {
           </Card>
         </Col>
       </Row>
-
-      {/* Botón Volver */}
       <Button
         as={Link}
-        to="/medicos"
+        to="/medicos/lista"
         variant="outline-secondary"
         className="mt-4"
       >

@@ -26,6 +26,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/medicos/nuevo" element={<FormularioMedico />} />
         <Route element={<RutaProtegida />}>
           <Route path="/dashboard" element={<DashboardRecepcion />} />
           <Route path="nuevo-paciente" element={<FormularioPaciente />} />
