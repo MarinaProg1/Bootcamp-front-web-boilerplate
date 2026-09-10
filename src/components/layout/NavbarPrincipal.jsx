@@ -11,6 +11,7 @@ const NavbarPrincipal = () => {
                     <Nav className="me-auto">
                         <Nav.Link as={Link} to="/">Dashboard</Nav.Link>
                         <Nav.Link as={Link} to="/nuevo-paciente">Registrar Paciente</Nav.Link>
+                        <Nav.Link as={Link} to="/nuevo-turno">Registrar Nuevo Turno</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
