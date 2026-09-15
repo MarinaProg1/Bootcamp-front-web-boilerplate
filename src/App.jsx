@@ -11,6 +11,7 @@ import FormularioMedico from "./components/medicos/FormularioMedico";
 
 import NotFound from "./components/utils/NotFound";
 import { Login } from "./components/login/Login";
+import FormularioHistorial from "./components/historialMedico/formularioHistorial";
 
 const RutaProtegida = () => {
   const token = localStorage.getItem("token");
@@ -36,6 +37,7 @@ function App() {
           <Route path="medicos/:id" element={<DetalleMedico />} />
           <Route path="/medicos/nuevo" element={<FormularioMedico />} />
           <Route path="/medicos/editar/:id" element={<FormularioMedico />} />
+          <Route path="/historial/nuevo" element={<FormularioHistorial />} />
 
           <Route path="*" element={<NotFound />} />
         </Route>

@@ -1,5 +1,9 @@
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
-import { BoxArrowRight, PersonBadge } from "react-bootstrap-icons";
+import {
+  BoxArrowRight,
+  PersonBadge,
+  Clipboard2Pulse,
+} from "react-bootstrap-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -28,6 +32,9 @@ const NavbarPrincipal = () => {
             </Nav.Link>
             <Nav.Link as={Link} to="/medicos/lista">
               <PersonBadge size={16} /> Médicos
+            </Nav.Link>
+            <Nav.Link as={Link} to="/historial/nuevo">
+              <Clipboard2Pulse size={16} /> Historial médico
             </Nav.Link>
           </Nav>
           <Nav className="ms-auto">
