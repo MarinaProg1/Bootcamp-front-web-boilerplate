@@ -32,10 +32,9 @@ $color-texto: #1f1c1c;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     animation: deslizarDesdeAbajo 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 
-    // Media query para celulares y tablets pequeñas
     @media (max-width: 768px) {
-        flex-direction: column; // Apila los elementos verticalmente
-        padding: 20px;          // Reduce el padding interno
+        flex-direction: column;
+        padding: 20px;          
     }
 
     img {
@@ -75,10 +74,8 @@ $color-texto: #1f1c1c;
     align-items: center;
     justify-content: center;
     padding: 20px;
-    width: 100%;           // Ocupa el ancho disponible
+    width: 100%;          
     max-width: 400px;
-    // Eliminado 'height: 300px' fijo para que el contenedor crezca según su contenido en móviles
-    min-height: 300px;     
     margin: 20px auto;
     
 

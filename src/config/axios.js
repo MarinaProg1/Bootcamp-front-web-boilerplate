@@ -6,7 +6,6 @@ const clientesAxios = axios.create({
     'Content-Type': 'application/json'
   }
 });
-
 clientesAxios.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -19,3 +18,4 @@ clientesAxios.interceptors.request.use(
 );
 
 export default clientesAxios;
+
