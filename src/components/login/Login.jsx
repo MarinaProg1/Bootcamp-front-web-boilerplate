@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { PersonSquare } from "react-bootstrap-icons";
+import { toast } from "sonner";
+import Logo from "../../assets/logo1.svg";
+
 import clientesAxios from "../../config/axios";
 import { validarDatos } from "../utils/validaciones";
 import style from "./login.module.scss";
@@ -7,7 +11,6 @@ import style from "./login.module.scss";
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
@@ -21,57 +24,75 @@ export const Login = () => {
     e.preventDefault();
 
     const nuevosErrores = validarDatos({ email, password }, reglasLogin);
-    setError(nuevosErrores);
 
     if (Object.keys(nuevosErrores).length > 0) {
-      setError("Por favor, complete todos los campos requeridos.");
+      toast.error("Por favor, complete todos los campos requeridos.");
       return;
     }
 
     try {
       const respuesta = await clientesAxios.post("/auth/login", {
-        email: email,
-        password: password,
+        email,
+        password,
       });
 
-      if (respuesta.data.data) {
-        const token = respuesta.data.data?.token;
+      const token = respuesta.data?.token || respuesta.data?.data?.token;
 
+      if (token) {
         localStorage.setItem("token", token);
+        toast.success("¡Inicio de sesión exitoso!");
         navigate("/dashboard");
       } else {
-        setError(respuesta.data.mensaje || "Credenciales incorrectas");
+        toast.error(respuesta.data?.mensaje || "Credenciales incorrectas");
       }
     } catch (error) {
-      console.log(error);
-
-      setError(error.response?.data?.mensaje || "Error al iniciar sesión");
+      if (error.response?.status === 401 || error.response?.status === 404) {
+        toast.info("Usuario no registrado. Redirigiendo a registro...");
+        setTimeout(() => {
+          navigate("/nuevo-medico");
+        }, 1500);
+      } else {
+        toast.error(error.response?.data?.mensaje || "Error al iniciar sesión");
+      }
     }
   };
 
   return (
-    <div className={style.pantallaLogin}>
-      <div className={style.contenedorFormulario}>
-        <h2>Iniciar Sesión</h2>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <form onSubmit={handleSubmit}>
-          <label>Email:</label>
-          <input
-            className={style.campoInput}
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+    <div className={style.bodyLogin}>
+      <div className={style.cardLogin}>
+        <div className={style.contenedorFormulario}>
+          <PersonSquare color="#1f1c1c" size={40} />
+          <h2>Iniciar Sesión</h2>
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="email">Email:</label>
+            <input
+              id="email"
+              className={style.campoInput}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
 
-          <label>Contraseña:</label>
-          <input
-            className={style.campoInput}
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button type="submit">Ingresar</button>
-        </form>
+            <label htmlFor="password">Contraseña:</label>
+            <input
+              id="password"
+              className={style.campoInput}
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button type="submit">Ingresar</button>
+          </form>
+        </div>
+        <div className={style.welcome}>
+          <img src={Logo} alt="Logo" />
+          <h4>Bienvenido !!!</h4>
+          <p>
+            ¿No tienes una cuenta? <Link to="/medicos/nuevo">Regístrate</Link>
+          </p>
+        </div>
       </div>
     </div>
   );
