@@ -46,7 +46,14 @@ export const Login = () => {
         toast.error(respuesta.data?.mensaje || "Credenciales incorrectas");
       }
     } catch (error) {
-      toast.error(error.response?.data?.mensaje || "Error al iniciar sesión");
+      if (error.response?.status === 401 || error.response?.status === 404) {
+        toast.info("Usuario no registrado. Redirigiendo a registro...");
+        setTimeout(() => {
+          navigate("/nuevo-medico");
+        }, 1500);
+      } else {
+        toast.error(error.response?.data?.mensaje || "Error al iniciar sesión");
+      }
     }
   };
 
@@ -54,7 +61,7 @@ export const Login = () => {
     <div className={style.bodyLogin}>
       <div className={style.cardLogin}>
         <div className={style.contenedorFormulario}>
-          <PersonSquare color="#1d58ee" size={40} />
+          <PersonSquare color="#1f1c1c" size={40} />
           <h2>Iniciar Sesión</h2>
           <form onSubmit={handleSubmit}>
             <label htmlFor="email">Email:</label>
@@ -83,7 +90,7 @@ export const Login = () => {
           <img src={Logo} alt="Logo" />
           <h4>Bienvenido !!!</h4>
           <p>
-            ¿No tienes una cuenta? <Link to="/nuevo-paciente">Regístrate</Link>
+            ¿No tienes una cuenta? <Link to="/medicos/nuevo">Regístrate</Link>
           </p>
         </div>
       </div>

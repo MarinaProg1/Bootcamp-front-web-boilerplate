@@ -33,6 +33,9 @@ const TurnoCard = ({ turno, onAtender }) => {
                         <Button as={Link} to={`/turno-detalle/${turno.id}`} variant="outline-secondary" className="flex-grow-1">
                             Ver detalle
                         </Button>
+                        <Button as={Link} to={`/turno-editar/${turno.id}`} variant="outline-secondary" className="flex-grow-1">
+                            Editar
+                        </Button>
                         <Button
                             onClick={() => onAtender(turno.id)}
                             disabled={turno.estado === "atendido" || !paciente}
