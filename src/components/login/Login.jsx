@@ -21,7 +21,6 @@ export const Login = () => {
     e.preventDefault();
 
     const nuevosErrores = validarDatos({ email, password }, reglasLogin);
-    setError(nuevosErrores);
 
     if (Object.keys(nuevosErrores).length > 0) {
       setError("Por favor, complete todos los campos requeridos.");
@@ -40,12 +39,12 @@ export const Login = () => {
         localStorage.setItem("token", token);
         navigate("/dashboard");
       } else {
-        setError(respuesta.data.mensaje || "Credenciales incorrectas");
+        setError(respuesta.data.message || "Credenciales incorrectas");
       }
     } catch (error) {
       console.log(error);
 
-      setError(error.response?.data?.mensaje || "Error al iniciar sesión");
+      setError(error.response?.data?.message || "Error al iniciar sesión");
     }
   };
 

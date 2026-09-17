@@ -5,8 +5,8 @@ import { useFetch } from '../../hooks/useFetch';
 
 const DetalleTurno = () => {
     const { id } = useParams();
-    const { data: turnos, isLoading } = useFetch(`/turnos/?id=${id}`);
-    const turno = turnos[0];
+    const { data: turnos, isLoading } = useFetch('/turnos');
+    const turno = turnos.find(turnoBuscado => turnoBuscado.id === id);
 
     if (isLoading) {
         return (

@@ -18,7 +18,7 @@ const DashboardRecepcion = () => {
 
     const marcarComoAtendido = async (idTurno) => {
         try {
-            await clientesAxios.patch(`/turnos/${idTurno}`);
+            await clientesAxios.patch(`/turnos/${idTurno}/atendido`);
 
             const turnosActualizados = turnos.map(turno => {
                 if (turno.id === idTurno) return { ...turno, estado: "atendido"};

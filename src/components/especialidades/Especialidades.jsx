@@ -16,6 +16,7 @@ const Especialidades = () => {
     // Estado del formulario
     const [nombre, setNombre] = useState('');
     const [descripcion, setDescripcion] = useState('');
+    const [categoria, setCategoria] = useState('');
 
     //(GET)
     const cargarEspecialidades = async () => {
@@ -49,7 +50,7 @@ const Especialidades = () => {
             const response = await fetch(url, {
                 method,
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nombre, descripcion })
+                body: JSON.stringify({ nombre, descripcion, categoria })
             });
 
             const data = await response.json();
@@ -88,6 +89,7 @@ const Especialidades = () => {
         setEspecialidadSeleccionada(esp);
         setNombre(esp.nombre || '');
         setDescripcion(esp.descripcion || '');
+        setCategoria(esp.categoria || '');
         setShowModal(true);
     };
 
@@ -102,6 +104,7 @@ const Especialidades = () => {
         setEspecialidadSeleccionada(null);
         setNombre('');
         setDescripcion('');
+        setCategoria('');
     };
 
     return (
@@ -169,6 +172,20 @@ const Especialidades = () => {
                             />
                         </Form.Group>
                         <Form.Group className="mb-3">
+                            <Form.Label>Categoría *</Form.Label>
+                            <Form.Select
+                                value={categoria}
+                                onChange={(e) => setCategoria(e.target.value)}
+                                required
+                            >
+                                <option value="">Seleccioná una categoría...</option>
+                                <option value="Clínica">Clínica</option>
+                                <option value="Quirúrgica">Quirúrgica</option>
+                                <option value="Diagnóstico">Diagnóstico</option>
+                                <option value="Terapéutica">Terapéutica</option>
+                            </Form.Select>
+                        </Form.Group>
+                        <Form.Group className="mb-3">
                             <Form.Label>Descripción</Form.Label>
                             <Form.Control 
                                 as="textarea" 
@@ -196,6 +213,7 @@ const Especialidades = () => {
                             <Card.Body>
                                 <p><strong>ID:</strong> {especialidadSeleccionada.id || especialidadSeleccionada._id}</p>
                                 <p><strong>Nombre:</strong> {especialidadSeleccionada.nombre}</p>
+                                <p><strong>Categoría:</strong> {especialidadSeleccionada.categoria}</p>
                                 <p><strong>Descripción:</strong> {especialidadSeleccionada.descripcion || 'Sin descripción'}</p>
                             </Card.Body>
                         </Card>

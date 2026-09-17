@@ -3,6 +3,7 @@ import { Toaster } from "sonner";
 import { Navigate } from "react-router-dom";
 import DashboardRecepcion from "./pages/DashboardRecepcion";
 import FormularioPaciente from "./components/pacientes/FormularioPaciente";
+import Especialidades from "./components/especialidades/Especialidades";
 import LayoutPrincipal from "./components/layout/LayoutPrincipal";
 import DetalleTurno from "./components/turnos/DetalleTurno";
 import NotFound from "./components/utils/NotFound";
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route element={<LayoutPrincipal />}>
           <Route path="/dashboard" element={<DashboardRecepcion />} />
+          <Route path="/especialidades" element={<Especialidades />} />
           <Route path="nuevo-paciente" element={<FormularioPaciente />} />
           <Route path="turno-detalle/:id" element={<DetalleTurno />} />
           <Route path="*" element={<NotFound />} />
